@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/alanihre/s3zipper"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/alanihre/s3zipper"
 )
 
 func main() {
