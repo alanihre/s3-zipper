@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-func s3Zip(sess *session.Session, inputBucket string, files []string, archiveBucket string, archiveFileName string) error {
+func S3Zip(sess *session.Session, inputBucket string, files []string, archiveBucket string, archiveFileName string) error {
 	// Create a buffer to write our archive to.
 	pr, pw := io.Pipe()
 
