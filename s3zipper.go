@@ -17,10 +17,12 @@ func S3Zip(sess *session.Session, inputBucket string, files []string, archiveBuc
 	// Create a new zip archive.
 	w := zip.NewWriter(pw)
 
-	// Wait for both download and upload to finish
+	//Channel for passing errors from WaitGroup
 	fatalErrors := make(chan error)
+	//Channel for detecting when WaitGroup is finished
 	wgDone := make(chan bool)
 
+	// Wait for both download and upload to finish
 	wg := sync.WaitGroup{}
 	wg.Add(2)
 
