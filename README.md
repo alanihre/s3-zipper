@@ -4,7 +4,16 @@ Go package for creating a zip archive of files on AWS S3 and upload the file to 
 No disk space is used for this operation as the files are archived and piped directly to the zip archive file on S3 through a buffer. The full file is not stored in memory but is instead buffered to allow the application to run in limied memory environments.
 
 ## Example
-```
+```go
+package main
+
+import (
+	"github.com/alanihre/s3zipper"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+)
+
+func main() {
 	region := "eu-north-1"
 
 	// Create a new AWS session. Credentials stored in environment variables
@@ -24,4 +33,5 @@ No disk space is used for this operation as the files are archived and piped dir
 	if err != nil {
 		panic(err)
 	}
+}
 ```
