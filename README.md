@@ -1,5 +1,5 @@
 # s3zipper
-Go package for creating a zip archive of files on AWS S3 and upload the file to S3.
+Go package for creating a zip archive of files on AWS S3 and upload the zip archive file to S3.
 
 No disk space is used for this operation as the files are archived and piped directly to the zip archive file on S3 through a buffer. The full file is not stored in memory but is instead buffered to allow the application to run in limied memory environments.
 
