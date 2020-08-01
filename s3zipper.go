@@ -18,7 +18,7 @@ func S3Zip(sess *session.Session, inputBucket string, files []string, archiveBuc
 	w := zip.NewWriter(pw)
 
 	// Wait for both download and upload to finish
-	errors := make(chan error)
+	fatalErrors := make(chan error)
 	wgDone := make(chan bool)
 
 	wg := sync.WaitGroup{}
@@ -37,7 +37,7 @@ func S3Zip(sess *session.Session, inputBucket string, files []string, archiveBuc
 			// Create a file in the zip archive
 			f, err := w.Create(file)
 			if err != nil {
-				errors <- err
+				fatalErrors <- err
 				return
 			}
 
@@ -51,14 +51,14 @@ func S3Zip(sess *session.Session, inputBucket string, files []string, archiveBuc
 				Key:    aws.String(file),
 			})
 			if err != nil {
-				errors <- err
+				fatalErrors <- err
 				return
 			}
 		}
 
 		err := w.Close()
 		if err != nil {
-			errors <- err
+			fatalErrors <- err
 			return
 		}
 	}()
@@ -75,7 +75,7 @@ func S3Zip(sess *session.Session, inputBucket string, files []string, archiveBuc
 			Key:         aws.String(archiveFileName),
 		})
 		if err != nil {
-			errors <- err
+			fatalErrors <- err
 			return
 		}
 	}()
@@ -91,8 +91,8 @@ func S3Zip(sess *session.Session, inputBucket string, files []string, archiveBuc
 	case <-wgDone:
 		// No errors
 		return nil
-	case err := <-errors:
-		close(errors)
+	case err := <-fatalErrors:
+		close(fatalErrors)
 		return err
 	}
 }
