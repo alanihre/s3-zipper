@@ -7,9 +7,11 @@ import (
 )
 
 func main() {
+	region := "eu-north-1"
+
 	// Create a new AWS session. Credentials stored in environment variables
 	sess, err := session.NewSession(&aws.Config{
-		Region: aws.String("eu-north-1"),
+		Region: aws.String(region),
 	})
 	if err != nil {
 		panic(err)
